@@ -55,3 +55,8 @@ repos:
     path: StringLoader
     lang: cpp
     url: https://github.com/maximmenshikov/StringLoader
+
+  - name: D000FF
+    path: D000FF
+    lang: vbnet
+    url: https://github.com/maximmenshikov/D000FF
