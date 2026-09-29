@@ -1,0 +1,57 @@
+constellation: wp7
+
+# A single place to work with the Windows Phone 7 "FullUnlock" components: one
+# `basis install` clones all of them side by side. This constellation is a
+# workspace only — it deliberately defines no build/run/test actions. The
+# projects are Visual Studio 2008 / Windows Mobile 6 / WP7 SDK (ARMv4I) targets
+# that build on Windows with those toolchains, not here.
+
+repos:
+  # On-device modules (the unlock chain).
+
+  # Cloaking filter: a WinCE FSD file-system filter (clkflt.dll) that redirects
+  # file lookups so stock system modules are served from patched copies.
+  - name: clkflt
+    path: clkflt
+    lang: cpp
+    url: https://github.com/maximmenshikov/clkflt
+
+  # Loader verifier (ulv.dll): stands in for \Windows\mslvmod.dll and relaxes
+  # module authentication/authorization so unsigned code loads.
+  - name: ulv
+    path: ulv
+    lang: cpp
+    url: https://github.com/maximmenshikov/ulv
+
+  # Policy engine (upl.dll): stands in for the stock policy engine and grants
+  # access that would normally be denied. Links ulv.lib and iri.lib.
+  - name: upl
+    path: upl
+    lang: cpp
+    url: https://github.com/maximmenshikov/upl
+
+  # User-mode helpers.
+
+  # Account manager (accman.exe): elevates account privileges to full trust via
+  # the ADB API and HKLM\Software\OEM\Accman. Uses the shared `common` headers
+  # (github.com/maximmenshikov/common) via its own git submodule.
+  - name: accman
+    path: accman
+    lang: cpp
+    url: https://github.com/maximmenshikov/accman
+
+  # Policy helper (uplhlp.exe): companion to upl — watches the policy message
+  # queue and surfaces localized toast notifications. Links StringLoader.lib.
+  - name: uplhlp
+    path: uplhlp
+    lang: cpp
+    url: https://github.com/maximmenshikov/uplhlp
+
+  # Shared library.
+
+  # Resource-string loader (StringLoader.lib): loads localized strings from WP7
+  # .mui resources. Consumed by uplhlp.
+  - name: StringLoader
+    path: StringLoader
+    lang: cpp
+    url: https://github.com/maximmenshikov/StringLoader
